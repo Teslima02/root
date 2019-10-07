@@ -1,8 +1,8 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { withStyles, Grid } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Header2 from '../../Header2';
-import Sidebar from '../../Sidebar';
 import Footer from '../../Footer';
 
 const drawerWidth = 240;
@@ -42,24 +42,33 @@ const styles = theme => ({
   },
 });
 
-class Layout1 extends React.PureComponent {
-  render() {
-    const { classes } = this.props;
+export function Layout1(props) {
+  return (
+    <React.Fragment>
+      <CssBaseline />
 
-    return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <CssBaseline />
+      <Grid container>
+        <Grid item xs={12} sm={12} md={12}>
           <Header2 />
-          <main className={classes.content}>
-            <div className={classes.toolbar} />
-            {this.props.children}
+        </Grid>
+      </Grid>
+
+      <Grid container className={props.classes.root}>
+        <Grid item xs={12} sm={12} md={12}>
+          <main className={props.classes.content}>
+            <div className={props.classes.toolbar} />
+            {props.children}
           </main>
-        </div>
-        <Footer />
-      </React.Fragment>
-    );
-  }
+        </Grid>
+      </Grid>
+      <Footer />
+    </React.Fragment>
+  );
 }
+
+Layout1.propTypes = {
+  classes: PropTypes.object.isRequired,
+  children: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(Layout1);

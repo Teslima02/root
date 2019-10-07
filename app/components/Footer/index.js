@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#344655',
     display: 'flex',
     [theme.breakpoints.up('sm')]: {
-      width: '100%',
+      // width: '100%',
       marginLeft: theme.spacing(3),
     },
   },

@@ -10,15 +10,14 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 // import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
-
-import FeaturePage from 'containers/FeaturePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
-// import Header from 'components/Header';
-// import Footer from 'components/Footer';
-
 import { CssBaseline, Container } from '@material-ui/core';
+
+import FeaturePage from '../FeaturePage/Loadable';
+import NotFoundPage from '../NotFoundPage/Loadable';
+import AllPosts from '../AllPosts/Loadable';
+
 import Layout1 from '../../components/layouts/layout1/Layout1';
-// import Layout2 from '../../components/layouts/layout2/Layout2';
+import Layout2 from '../../components/layouts/layout2/Layout2';
 // import GlobalStyle from '../../global-styles';
 
 export default function App() {
@@ -40,6 +39,7 @@ export default function App() {
 
             <Switch>
               {/* <Route exact path="/" component={HomePage} /> */}
+              <Route path="/posts" component={AllPosts} />
               <Route path="/features" component={FeaturePage} />
               <Route path="" component={NotFoundPage} />
             </Switch>
