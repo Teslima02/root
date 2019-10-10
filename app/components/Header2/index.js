@@ -24,6 +24,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Badge from '@material-ui/core/Badge';
+import { Grid } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -103,7 +104,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function MiniDrawer() {
+export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -277,8 +278,8 @@ export default function MiniDrawer() {
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
-              <ChevronLeftIcon />
-            )}
+                <ChevronLeftIcon />
+              )}
           </IconButton>
         </div>
         <Divider />
@@ -304,6 +305,17 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
+
+      {/* <Grid container className={classes.root}>
+        <Grid item xs={12} sm={12} md={12}>
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            {props.children}
+            hellofggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+          </main>
+        </Grid>
+      </Grid> */}
+
       {/* <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>
@@ -336,6 +348,7 @@ export default function MiniDrawer() {
           posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography>
       </main> */}
+
     </div>
   );
 }
