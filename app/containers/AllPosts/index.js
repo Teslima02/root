@@ -14,13 +14,12 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Grid, Paper, TextField, makeStyles } from '@material-ui/core';
+import { Grid, Paper, TextField, makeStyles, Button } from '@material-ui/core';
 import makeSelectAllPosts from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { AllPostsList } from './components/AllPostsList';
-
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -79,7 +78,7 @@ export function AllPosts() {
 }
 
 AllPosts.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

@@ -1,38 +1,74 @@
-import React from 'react';
+/**
+ *
+ * AllPosts
+ *
+ */
+
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
 import { IconButton, Tooltip, Icon } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import { Add, CloudUpload } from '@material-ui/icons';
-import { withStyles } from '@material-ui/core/styles';
+import makeSelectAllPosts, { makeSelectOpenNewPostDialog, makeSelectPostDialog } from '../selectors';
+import reducer from '../reducer';
+import saga from '../saga';
+import { openNewPostDialog } from '../actions';
+import { AllPostsDialog } from './AllPostsDialog';
+
 const defaultToolbarStyles = {
   iconButton: {},
 };
 
-function CustomToolbar(props) {
+export function AddButton({ classes, openNewPostDialog, postDialog }) {
+  useInjectReducer({ key: 'allPosts', reducer });
+  useInjectSaga({ key: 'allPosts', saga });
 
-  handleClick = () => {
-    console.log('clicked on icon!');
-  };
-  const { openNewDialog, openNewMaturityUpload, classes } = this.props;
+  console.log(postDialog, 'postDialog');
 
   return (
     <React.Fragment>
-      <Tooltip title="New Product">
-        <IconButton className={classes.iconButton} onClick={openNewDialog}>
+      <Tooltip title="Add New Post">
+        <IconButton className={classes.iconButton} onClick={openNewPostDialog}>
           <Add className={classes.deleteIcon} />
         </IconButton>
       </Tooltip>
 
-      <Tooltip title="Maturity Upload">
-        <IconButton
-          className={classes.iconButton}
-          onClick={openNewMaturityUpload}
-        >
-          <CloudUpload className={classes.deleteIcon} />
-        </IconButton>
-      </Tooltip>
+      <AllPostsDialog postDialog={postDialog} />
     </React.Fragment>
   );
 }
 
-export default withStyles(defaultToolbarStyles, { name: 'CustomToolbar' })(
-  CustomToolbar,
+AddButton.prototypes = {
+  classes: PropTypes.object.isRequired,
+  openNewPostDialog: PropTypes.func,
+};
+
+const mapStateToProps = createStructuredSelector({
+  allPosts: makeSelectAllPosts(),
+  postDialog: makeSelectPostDialog(),
+  // openNewPostDialog: makeSelectOpenNewPostDialog(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    openNewPostDialog: () => dispatch(openNewPostDialog()),
+    dispatch,
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
 );
+
+export default compose(
+  withStyles(defaultToolbarStyles, { name: 'CustomToolbar' }),
+  withConnect,
+  memo,
+)(AddButton);

@@ -23,9 +23,10 @@ import {
 } from '@material-ui/core';
 import MUIDataTable from 'mui-datatables';
 import AddButton from './AddButton';
-import makeSelectAllPosts from '../selectors';
+import makeSelectAllPosts, { makeSelectOpenNewPostDialog } from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
+import { openNewPostDialog } from '../actions';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -109,9 +110,9 @@ export function AllPostsList() {
 
   const options = {
     filterType: 'checkbox',
-    responsive: 'scroll',
+    responsive: 'scrollMaxHeight',
     selectableRows: 'none',
-    // customToolbar: () => <AddButton openNewDialog={openNewTbillsDialog} />,
+    customToolbar: () => <AddButton />,
   };
 
   return (
@@ -127,7 +128,7 @@ export function AllPostsList() {
 }
 
 AllPostsList.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

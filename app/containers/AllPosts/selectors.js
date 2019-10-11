@@ -21,5 +21,28 @@ const makeSelectAllPosts = () =>
     substate => substate,
   );
 
+const makeSelectPostDialog = () =>
+  createSelector(
+    selectAllPostsDomain,
+    postDialog => postDialog.postDialog,
+  );
+
+// const makeSelectOpenNewPostDialog = () =>
+// createSelector(
+//   selectAllPostsDomain,
+//   openNewState => openNewState.postDialog,
+// );
+
+// const makeSelectCloseNewPostDialog = () =>
+//   createSelector(
+//     selectAllPostsDomain,
+//     closeNewState => closeNewState.postDialog,
+//   );
+
 export default makeSelectAllPosts;
-export { selectAllPostsDomain };
+export {
+  selectAllPostsDomain,
+  makeSelectPostDialog,
+  // makeSelectOpenNewPostDialog,
+  // makeSelectCloseNewPostDialog,
+};
