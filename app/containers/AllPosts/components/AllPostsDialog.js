@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -27,7 +27,7 @@ import {
   DialogContentText,
   DialogActions,
 } from '@material-ui/core';
-import makeSelectAllPosts, { makeSelectOpenNewPostDialog, makeSelectCloseNewPostDialog } from '../selectors';
+import makeSelectAllPosts, { makeSelectOpenNewPostDialog, makeSelectCloseNewPostDialog, makeSelectPostDialog } from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
 import { closeNewPostDialog } from '../actions';
@@ -50,36 +50,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
-  export function AllPostsDialog(props) {
-    console.log(props, 'props');
-  console.log(props.postDialog, 'postDialog');
-  console.log(props.closeNewPostDialog, 'closeNewPostDialog')
+export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPostsDialog', reducer });
   useInjectSaga({ key: 'allPostsDialog', saga });
 
-  const [open, setOpen] = React.useState(false);
+  // useEffect(() => {
+  //   console.log(postDialog, 'effect postDialog');
+  // });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const closeComposeDialog = () => {
-    console.log('close run');
-    console.log(postDialog.type, 'postDialog.type')
-    postDialog.type === 'edit' ? null : closeNewPostDialog;
-};
+  // const closeComposeDialog = () => {
+  //   postDialog.type === 'edit' ? closeNewPostDialog : closeNewPostDialog;
+  // };
 
   return (
     <div>
       <Dialog
         {...postDialog.props}
-        onClose={closeComposeDialog}
+        onClose={closeNewPostDialog}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
@@ -98,10 +86,10 @@ const useStyles = makeStyles(theme => ({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeComposeDialog} color="primary">
+          <Button onClick={closeNewPostDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={closeComposeDialog} color="primary">
+          <Button onClick={closeNewPostDialog} color="primary">
             Subscribe
           </Button>
         </DialogActions>
@@ -117,9 +105,6 @@ AllPostsDialog.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   allPosts: makeSelectAllPosts(),
-
-  // openNewPostDialog: makeSelectOpenNewPostDialog(),
-  // closeNewPostDialog: makeSelectCloseNewPostDialog(),
 });
 
 function mapDispatchToProps(dispatch) {

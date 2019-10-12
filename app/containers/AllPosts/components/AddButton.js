@@ -15,21 +15,27 @@ import { useInjectReducer } from 'utils/injectReducer';
 import { IconButton, Tooltip, Icon } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { Add, CloudUpload } from '@material-ui/icons';
-import makeSelectAllPosts, { makeSelectOpenNewPostDialog, makeSelectPostDialog } from '../selectors';
+import makeSelectAllPosts, {
+  makeSelectOpenNewPostDialog,
+  makeSelectPostDialog,
+} from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
-import { openNewPostDialog } from '../actions';
+import { openNewPostDialog, closeNewPostDialog } from '../actions';
 import { AllPostsDialog } from './AllPostsDialog';
 
 const defaultToolbarStyles = {
   iconButton: {},
 };
 
-export function AddButton({ classes, openNewPostDialog, postDialog }) {
+export function AddButton({
+  classes,
+  openNewPostDialog,
+  closeNewPostDialog,
+  postDialog,
+}) {
   useInjectReducer({ key: 'allPosts', reducer });
   useInjectSaga({ key: 'allPosts', saga });
-
-  console.log(postDialog, 'postDialog');
 
   return (
     <React.Fragment>
@@ -39,7 +45,10 @@ export function AddButton({ classes, openNewPostDialog, postDialog }) {
         </IconButton>
       </Tooltip>
 
-      <AllPostsDialog postDialog={postDialog} />
+      {/* <AllPostsDialog
+        postDialog={postDialog}
+        closeNewPostDialog={closeNewPostDialog}
+      /> */}
     </React.Fragment>
   );
 }
@@ -47,6 +56,7 @@ export function AddButton({ classes, openNewPostDialog, postDialog }) {
 AddButton.prototypes = {
   classes: PropTypes.object.isRequired,
   openNewPostDialog: PropTypes.func,
+  closeNewPostDialog: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -58,6 +68,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     openNewPostDialog: () => dispatch(openNewPostDialog()),
+    closeNewPostDialog: () => dispatch(closeNewPostDialog()),
     dispatch,
   };
 }

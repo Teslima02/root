@@ -20,6 +20,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { AllPostsList } from './components/AllPostsList';
+import { AllPostsDialog } from './components/AllPostsDialog';
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -43,7 +44,7 @@ export function AllPosts() {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Helmet>
         <title>AllPosts</title>
         <meta name="description" content="Description of AllPosts" />
@@ -73,7 +74,8 @@ export function AllPosts() {
           <AllPostsList />
         </Grid>
       </Grid>
-    </div>
+      {/* <AllPostsDialog /> */}
+    </React.Fragment>
   );
 }
 

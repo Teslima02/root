@@ -18,7 +18,6 @@ export function openNewPostDialog() {
 }
 
 export function closeNewPostDialog() {
-  console.log('close welcome here');
   return {
     type: CLOSE_NEW_POST_DIALOG,
   };
