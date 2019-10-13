@@ -9,9 +9,11 @@ import {
   CLOSE_NEW_POST_DIALOG,
   OPEN_EDIT_POST_DIALOG,
   CLOSE_EDIT_POST_DIALOG,
+  GET_ALL_POSTS,
 } from './constants';
 
 export const initialState = {
+  allPosts: [],
   postDialog: {
     type: 'new',
     props: {
@@ -25,6 +27,18 @@ export const initialState = {
 const allPostsReducer = (state = initialState, action) =>
   produce(state, (/* draft */) => {
     switch (action.type) {
+      case GET_ALL_POSTS: {
+        return {
+          ...state,
+          postDialog: {
+            type: 'new',
+            props: {
+              open: true,
+            },
+            data: null,
+          },
+        };
+      }
       case OPEN_NEW_POST_DIALOG: {
         return {
           ...state,
