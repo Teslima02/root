@@ -26,8 +26,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  AppBar,
+  Toolbar,
+  Typography,
 } from '@material-ui/core';
-import makeSelectAllPosts, { makeSelectOpenNewPostDialog, makeSelectCloseNewPostDialog, makeSelectPostDialog } from '../selectors';
+import makeSelectAllPosts from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
 import { closeNewPostDialog } from '../actions';
@@ -38,9 +41,9 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
+    margin: theme.spacing(1),
+    // marginRight: theme.spacing(1),
+    // width: 200,
   },
   dense: {
     marginTop: 19,
@@ -54,6 +57,15 @@ export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPostsDialog', reducer });
   useInjectSaga({ key: 'allPostsDialog', saga });
+
+  const [values, setValues] = React.useState({
+    title: '',
+    description: '',
+  });
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
 
   // useEffect(() => {
   //   console.log(postDialog, 'effect postDialog');
@@ -69,30 +81,103 @@ export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
         {...postDialog.props}
         onClose={closeNewPostDialog}
         aria-labelledby="form-dialog-title"
+        fullWidth
+        maxWidth="sm"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <AppBar position="static" elevation={1}>
+          <Toolbar>
+            <Typography variant="h6">
+              {postDialog.type === 'new' ? 'New Post' : 'Edit Post'}
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-          />
+          {postDialog.type === 'new' ? (
+            <div>
+              <TextField
+                id="standard-title"
+                label="Title"
+                className={classes.textField}
+                value={values.title}
+                onChange={handleChange('title')}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-description"
+                label="Description"
+                className={classes.textField}
+                value={values.description}
+                onChange={handleChange('description')}
+                margin="normal"
+                fullWidth
+                multiline
+                rows="4"
+              />
+            </div>
+          ) : (
+            <div>
+              <TextField
+                id="standard-title"
+                label="Title"
+                className={classes.textField}
+                value={values.title}
+                onChange={handleChange('title')}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-description"
+                label="Description"
+                className={classes.textField}
+                value={values.description}
+                onChange={handleChange('description')}
+                margin="normal"
+                fullWidth
+                multiline
+                rows="4"
+              />
+            </div>
+          )}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={closeNewPostDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={closeNewPostDialog} color="primary">
-            Subscribe
-          </Button>
-        </DialogActions>
+        {postDialog.type === 'new' ? (
+          <DialogActions>
+            <Button
+              onClick={closeNewPostDialog}
+              variant="contained"
+              color="primary"
+            >
+              Add
+            </Button>
+            <Button
+              onClick={closeNewPostDialog}
+              color="primary"
+              variant="contained"
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        ) : (
+          <DialogActions>
+            <Button
+              onClick={() => {
+                // saveBondsProduct(setValues);
+                closeNewPostDialog;
+              }}
+              color="primary"
+              variant="contained"
+            >
+              Save
+            </Button>
+            <Button
+              onClick={closeNewPostDialog}
+              color="primary"
+              variant="contained"
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        )}
       </Dialog>
     </div>
   );
@@ -101,6 +186,7 @@ export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
 AllPostsDialog.propTypes = {
   dispatch: PropTypes.func.isRequired,
   closeNewPostDialog: PropTypes.func,
+  postDialog: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({

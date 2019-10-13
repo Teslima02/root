@@ -15,12 +15,13 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { Grid, Paper, TextField, makeStyles, Button } from '@material-ui/core';
-import makeSelectAllPosts from './selectors';
+import makeSelectAllPosts, { makeSelectPostDialog } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { AllPostsList } from './components/AllPostsList';
 import { AllPostsDialog } from './components/AllPostsDialog';
+import { closeNewPostDialog } from './actions';
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -29,19 +30,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function AllPosts() {
+export function AllPosts({ postDialog, closeNewPostDialog }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
   useInjectSaga({ key: 'allPosts', saga });
-
-  const [values, setValues] = React.useState({
-    title: '',
-    description: '',
-  });
-
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
 
   return (
     <React.Fragment>
@@ -52,43 +44,32 @@ export function AllPosts() {
 
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12}>
-          <div>
-            <TextField
-              id="standard-title"
-              label="Title"
-              className={classes.textField}
-              value={values.title}
-              onChange={handleChange('title')}
-              margin="normal"
-            />
-            <TextField
-              id="standard-description"
-              label="Description"
-              className={classes.textField}
-              value={values.description}
-              onChange={handleChange('description')}
-              margin="normal"
-            />
-          </div>
-
           <AllPostsList />
         </Grid>
       </Grid>
-      {/* <AllPostsDialog /> */}
+
+      <AllPostsDialog
+        postDialog={postDialog}
+        closeNewPostDialog={closeNewPostDialog}
+      />
     </React.Fragment>
   );
 }
 
 AllPosts.propTypes = {
   // dispatch: PropTypes.func.isRequired,
+  postDialog: PropTypes.object.isRequired,
+  closeNewPostDialog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   allPosts: makeSelectAllPosts(),
+  postDialog: makeSelectPostDialog(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    closeNewPostDialog: () => dispatch(closeNewPostDialog()),
     dispatch,
   };
 }

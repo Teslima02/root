@@ -23,10 +23,10 @@ import {
 } from '@material-ui/core';
 import MUIDataTable from 'mui-datatables';
 import AddButton from './AddButton';
-import makeSelectAllPosts, { makeSelectOpenNewPostDialog } from '../selectors';
+import makeSelectAllPosts, { makeSelectOpenNewPostDialog, makeSelectPostDialog } from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
-import { openNewPostDialog } from '../actions';
+import { openNewPostDialog, closeNewPostDialog } from '../actions';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -46,10 +46,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function AllPostsList() {
+export function AllPostsList({ openNewPostDialog }) {
+  // console.log(openNewPostDialog, 'openNewPostDialog')
   const classes = useStyles();
-  useInjectReducer({ key: 'allPostsList', reducer });
-  useInjectSaga({ key: 'allPostsList', saga });
+  useInjectReducer({ key: 'allPosts', reducer });
+  useInjectSaga({ key: 'allPosts', saga });
 
   const [values, setValues] = React.useState({
     title: '',
@@ -133,10 +134,13 @@ AllPostsList.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   allPosts: makeSelectAllPosts(),
+  postDialog: makeSelectPostDialog(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    openNewPostDialog: () => dispatch(openNewPostDialog()),
+    closeNewPostDialog: () => dispatch(closeNewPostDialog()),
     dispatch,
   };
 }

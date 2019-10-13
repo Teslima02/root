@@ -34,6 +34,8 @@ export function AddButton({
   closeNewPostDialog,
   postDialog,
 }) {
+  // console.log(postDialog, 'postDialog')
+  // console.log(openNewPostDialog, 'openNewPostDialog')
   useInjectReducer({ key: 'allPosts', reducer });
   useInjectSaga({ key: 'allPosts', saga });
 
@@ -68,7 +70,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     openNewPostDialog: () => dispatch(openNewPostDialog()),
-    closeNewPostDialog: () => dispatch(closeNewPostDialog()),
+    // closeNewPostDialog: () => dispatch(closeNewPostDialog()),
     dispatch,
   };
 }
