@@ -36,7 +36,7 @@ const allPostsReducer = (state = initialState, action) =>
           ...state,
           loading: true,
           error: false,
-          getAllPosts: false,
+          getAllPosts: [],
         };
       }
       case GET_ALL_POSTS_SUCCESS: {

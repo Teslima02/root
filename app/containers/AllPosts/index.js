@@ -14,7 +14,12 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { Grid, makeStyles } from '@material-ui/core';
-import { makeSelectPostDialog, makeSelectGetAllPosts } from './selectors';
+import {
+  makeSelectPostDialog,
+  makeSelectGetAllPosts,
+  makeSelectLoading,
+  makeSelectError,
+} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -29,13 +34,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function AllPosts({ postDialog, closeNewPostDialog, getAllPosts }) {
+export function AllPosts({
+  postDialog,
+  closeNewPostDialog,
+  dispatchAllPostsAction,
+  getAllPosts,
+  loading,
+  error,
+}) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
   useInjectSaga({ key: 'allPosts', saga });
 
   useEffect(() => {
-    allPosts();
+    dispatchAllPostsAction();
   }, []);
 
   return (
@@ -47,7 +59,11 @@ export function AllPosts({ postDialog, closeNewPostDialog, getAllPosts }) {
 
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12}>
-          <AllPostsList getAllPosts={getAllPosts} />
+          <AllPostsList
+            loading={loading}
+            error={error}
+            getAllPosts={getAllPosts}
+          />
         </Grid>
       </Grid>
 
@@ -63,16 +79,21 @@ AllPosts.propTypes = {
   postDialog: PropTypes.object.isRequired,
   closeNewPostDialog: PropTypes.func.isRequired,
   getAllPosts: PropTypes.array.isRequired,
+  dispatchAllPostsAction: PropTypes.func,
+  loading: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };
 
 const mapStateToProps = createStructuredSelector({
   postDialog: makeSelectPostDialog(),
   getAllPosts: makeSelectGetAllPosts(),
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    allPosts: () => dispatch(allPosts()),
+    dispatchAllPostsAction: () => dispatch(allPosts()),
     closeNewPostDialog: () => dispatch(closeNewPostDialog()),
     dispatch,
   };

@@ -184,7 +184,7 @@ export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
 }
 
 AllPostsDialog.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
   closeNewPostDialog: PropTypes.func,
   postDialog: PropTypes.object,
 };

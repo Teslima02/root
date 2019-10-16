@@ -13,13 +13,14 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { makeStyles, FormControlLabel, Icon } from '@material-ui/core';
+import { makeStyles, FormControlLabel, Icon, List } from '@material-ui/core';
 import MUIDataTable from 'mui-datatables';
 import AddButton from './AddButton';
 import { makeSelectPostDialog, makeSelectGetAllPosts } from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
 import { openNewPostDialog, closeNewPostDialog, allPosts } from '../actions';
+import LoadingIndicator from '../../../components/LoadingIndicator';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function AllPostsList({ getAllPosts }) {
+export function AllPostsList({ getAllPosts, loading, error }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
   useInjectSaga({ key: 'allPosts', saga });
@@ -88,6 +89,10 @@ export function AllPostsList({ getAllPosts }) {
     customToolbar: () => <AddButton />,
   };
 
+  if (loading) {
+    return <List component={LoadingIndicator} />;
+  }
+
   return (
     <div>
       <MUIDataTable
@@ -102,6 +107,8 @@ export function AllPostsList({ getAllPosts }) {
 
 AllPostsList.propTypes = {
   getAllPosts: PropTypes.array.isRequired,
+  loading: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };
 
 const mapStateToProps = createStructuredSelector({
