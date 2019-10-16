@@ -13,20 +13,13 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import {
-  Grid,
-  Paper,
-  TextField,
-  makeStyles,
-  FormControlLabel,
-  Icon,
-} from '@material-ui/core';
+import { makeStyles, FormControlLabel, Icon } from '@material-ui/core';
 import MUIDataTable from 'mui-datatables';
 import AddButton from './AddButton';
-import makeSelectAllPosts, { makeSelectOpenNewPostDialog, makeSelectPostDialog } from '../selectors';
+import { makeSelectPostDialog, makeSelectGetAllPosts } from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
-import { openNewPostDialog, closeNewPostDialog } from '../actions';
+import { openNewPostDialog, closeNewPostDialog, allPosts } from '../actions';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -46,43 +39,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function AllPostsList({ openNewPostDialog }) {
-  // console.log(openNewPostDialog, 'openNewPostDialog')
+export function AllPostsList({ getAllPosts }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
   useInjectSaga({ key: 'allPosts', saga });
 
-  const [values, setValues] = React.useState({
-    title: '',
-    description: '',
-  });
-
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  const currencies = [
-    {
-      value: 'USD',
-      label: '$',
-    },
-    {
-      value: 'EUR',
-      label: '€',
-    },
-    {
-      value: 'BTC',
-      label: '฿',
-    },
-    {
-      value: 'JPY',
-      label: '¥',
-    },
-  ];
-
   const columns = [
     {
-      name: 'id',
+      name: 'Id',
       label: 'S/N',
       options: {
         filter: true,
@@ -100,8 +64,16 @@ export function AllPostsList({ openNewPostDialog }) {
       },
     },
     {
-      name: 'rate',
-      label: 'Discount Rate',
+      name: 'desc',
+      label: 'Description',
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: 'content',
+      label: 'Contents',
       options: {
         filter: true,
         sort: false,
@@ -119,8 +91,8 @@ export function AllPostsList({ openNewPostDialog }) {
   return (
     <div>
       <MUIDataTable
-        title="Treasury Bills"
-        data={currencies}
+        title="All Posts"
+        data={getAllPosts}
         columns={columns}
         options={options}
       />
@@ -129,11 +101,11 @@ export function AllPostsList({ openNewPostDialog }) {
 }
 
 AllPostsList.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
+  getAllPosts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  allPosts: makeSelectAllPosts(),
+  getAllPosts: makeSelectGetAllPosts(),
   postDialog: makeSelectPostDialog(),
 });
 
@@ -141,6 +113,7 @@ function mapDispatchToProps(dispatch) {
   return {
     openNewPostDialog: () => dispatch(openNewPostDialog()),
     closeNewPostDialog: () => dispatch(closeNewPostDialog()),
+    allPostsD: () => dispatch(allPosts()),
     dispatch,
   };
 }

@@ -4,24 +4,23 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Grid, Paper, TextField, makeStyles, Button } from '@material-ui/core';
-import makeSelectAllPosts, { makeSelectPostDialog } from './selectors';
+import { Grid, makeStyles } from '@material-ui/core';
+import { makeSelectPostDialog, makeSelectGetAllPosts } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { AllPostsList } from './components/AllPostsList';
 import { AllPostsDialog } from './components/AllPostsDialog';
-import { closeNewPostDialog } from './actions';
+import { closeNewPostDialog, allPosts } from './actions';
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -30,10 +29,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function AllPosts({ postDialog, closeNewPostDialog }) {
+export function AllPosts({ postDialog, closeNewPostDialog, getAllPosts }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
   useInjectSaga({ key: 'allPosts', saga });
+
+  useEffect(() => {
+    allPosts();
+  }, []);
 
   return (
     <React.Fragment>
@@ -44,7 +47,7 @@ export function AllPosts({ postDialog, closeNewPostDialog }) {
 
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12}>
-          <AllPostsList />
+          <AllPostsList getAllPosts={getAllPosts} />
         </Grid>
       </Grid>
 
@@ -57,18 +60,19 @@ export function AllPosts({ postDialog, closeNewPostDialog }) {
 }
 
 AllPosts.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
   postDialog: PropTypes.object.isRequired,
   closeNewPostDialog: PropTypes.func.isRequired,
+  getAllPosts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  allPosts: makeSelectAllPosts(),
   postDialog: makeSelectPostDialog(),
+  getAllPosts: makeSelectGetAllPosts(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    allPosts: () => dispatch(allPosts()),
     closeNewPostDialog: () => dispatch(closeNewPostDialog()),
     dispatch,
   };

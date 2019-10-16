@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -26,6 +25,14 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func allArticles(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method == "GET" {
+		w.Header().Set("Access-Control-Allow-Headers", "Authorization") // You can add more headers here if needed
+	}
+	//  else {
+	// Your code goes here
+	// }
 
 	fmt.Println("Endpoint: All article endpoint")
 	json.NewEncoder(w).Encode(Articles)
@@ -111,31 +118,31 @@ func main() {
 		Article{Id: "2", Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
 	}
 
-	fmt.Println("Go MySQL Tutorial")
+	// fmt.Println("Go MySQL Tutorial")
 
-	// Open up our database connection.
-	// I've set up a database on my local machine using phpmyadmin.
-	// The database is called testDb
-	db, err := sql.Open("mysql", "root:Teslim123@tcp(127.0.0.1:3306)/testDB")
+	// // Open up our database connection.
+	// // I've set up a database on my local machine using phpmyadmin.
+	// // The database is called testDb
+	// db, err := sql.Open("mysql", "root:Teslim123@tcp(127.0.0.1:3306)/testDB")
 
-	// if there is an error opening the connection, handle it
-	if err != nil {
-		panic(err.Error())
-	}
+	// // if there is an error opening the connection, handle it
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
 
-	// defer the close till after the main function has finished
-	// executing
-	defer db.Close()
+	// // defer the close till after the main function has finished
+	// // executing
+	// defer db.Close()
 
-	// perform a db.Query insert
-	insert, err := db.Query("INSERT INTO test VALUES (2, 'Test')")
+	// // perform a db.Query insert
+	// insert, err := db.Query("INSERT INTO test VALUES (2, 'Test')")
 
-	if err != nil {
-		panic(err.Error())
-	}
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
 
-	// be careful deferring Queries if you are using transactions
-	defer insert.Close()
+	// // be careful deferring Queries if you are using transactions
+	// defer insert.Close()
 
 	handleRequests()
 }

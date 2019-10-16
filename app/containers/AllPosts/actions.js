@@ -11,6 +11,8 @@ import {
   CLOSE_EDIT_POST_DIALOG,
   SAVE_NEW_POST,
   GET_ALL_POSTS,
+  GET_ALL_POSTS_SUCCESS,
+  GET_ALL_POSTS_ERROR,
 } from './constants';
 
 export function openNewPostDialog() {
@@ -37,23 +39,35 @@ export function closeEditPostDialog() {
   };
 }
 
-export function getAllPosts() {
+export function allPosts() {
   return {
     type: GET_ALL_POSTS,
   };
 }
 
+export function allPostsSuccess(data) {
+  return {
+    type: GET_ALL_POSTS_SUCCESS,
+    payload: data,
+  };
+}
+
+export function allPostsError(data) {
+  return {
+    type: GET_ALL_POSTS_ERROR,
+    payload: data,
+  };
+}
+
 export function saveNewPost(data) {
-  console.log(data, 'new post');
+  // console.log(data, 'new post');
   return dispatch => {
-    // type: SAVE_NEW_POST,
-    // payload: data,
 
     Promise.all([
       dispatch({
         type: SAVE_NEW_POST,
         payload: data,
       }),
-    ]).then(() => dispatch(getAllPosts()));
+    ]).then(() => dispatch(allPosts()));
   };
 }
