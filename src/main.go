@@ -12,8 +12,8 @@ import (
 )
 
 type Article struct {
-	Id      string `json:"Id"`
-	Title   string `json:"Title"`
+	ID      string `json:"id"`
+	Title   string `json:"title"`
 	Desc    string `json:"desc"`
 	Content string `json:"content"`
 }
@@ -45,11 +45,11 @@ func oneArticle(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprint(w, "key: "+key)
 
 	// Loop over all of our Articles
-	// if the article.Id equals the key we pass in
+	// if the article.ID equals the key we pass in
 	// return the article encoded as JSON
 
 	for _, article := range Articles {
-		if article.Id == key {
+		if article.ID == key {
 			json.NewEncoder(w).Encode(article)
 		}
 	}
@@ -91,7 +91,7 @@ func deleteArticle(w http.ResponseWriter, r *http.Request) {
 	for index, article := range Articles {
 		// if our id path parameter matches one of our
 		// articles
-		if article.Id == id {
+		if article.ID == id {
 			// updates our Articles array to remove the
 			// article
 			Articles = append(Articles[:index], Articles[index+1:]...)
@@ -114,8 +114,8 @@ func handleRequests() {
 func main() {
 
 	Articles = []Article{
-		Article{Id: "1", Title: "Hello", Desc: "Article Description", Content: "Article Content"},
-		Article{Id: "2", Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
+		Article{ID: "1", Title: "Hello", Desc: "Article Description", Content: "Article Content"},
+		Article{ID: "2", Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
 	}
 
 	// fmt.Println("Go MySQL Tutorial")

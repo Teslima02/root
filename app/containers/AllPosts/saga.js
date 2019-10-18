@@ -5,7 +5,6 @@ import { allPostsSuccess, allPostsError } from './actions';
 
 // Individual exports for testing
 export function* getAllPosts() {
-  console.log('come here');
   const requestURL = 'http://127.0.0.1:8081/articles';
 
   try {

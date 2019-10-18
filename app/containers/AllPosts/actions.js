@@ -60,7 +60,7 @@ export function allPostsError(data) {
 }
 
 export function saveNewPost(data) {
-  // console.log(data, 'new post');
+  console.log(data, 'new post');
   return dispatch => {
 
     Promise.all([

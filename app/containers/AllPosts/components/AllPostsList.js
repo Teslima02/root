@@ -65,6 +65,14 @@ export function AllPostsList({ getAllPosts, loading, error }) {
       },
     },
     {
+      name: 'title',
+      label: 'Tittle',
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
       name: 'desc',
       label: 'Description',
       options: {

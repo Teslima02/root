@@ -33,7 +33,7 @@ import {
 import makeSelectAllPosts from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
-import { closeNewPostDialog } from '../actions';
+import { closeNewPostDialog, saveNewPost } from '../actions';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -53,14 +53,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
+export function AllPostsDialog({
+  postDialog,
+  closeNewPostDialog,
+  dispatchNewPostAction,
+}) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPostsDialog', reducer });
   useInjectSaga({ key: 'allPostsDialog', saga });
 
   const [values, setValues] = React.useState({
     title: '',
-    description: '',
+    desc: '',
+    content: '',
   });
 
   const handleChange = name => event => {
@@ -104,11 +109,20 @@ export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
                 fullWidth
               />
               <TextField
-                id="standard-description"
+                id="standard-title"
                 label="Description"
                 className={classes.textField}
-                value={values.description}
-                onChange={handleChange('description')}
+                value={values.desc}
+                onChange={handleChange('desc')}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-description"
+                label="Content"
+                className={classes.textField}
+                value={values.content}
+                onChange={handleChange('content')}
                 margin="normal"
                 fullWidth
                 multiline
@@ -127,11 +141,20 @@ export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
                 fullWidth
               />
               <TextField
-                id="standard-description"
+                id="standard-title"
                 label="Description"
                 className={classes.textField}
-                value={values.description}
-                onChange={handleChange('description')}
+                value={values.desc}
+                onChange={handleChange('desc')}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="standard-description"
+                label="Content"
+                className={classes.textField}
+                value={values.content}
+                onChange={handleChange('content')}
                 margin="normal"
                 fullWidth
                 multiline
@@ -143,14 +166,17 @@ export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
         {postDialog.type === 'new' ? (
           <DialogActions>
             <Button
-              onClick={closeNewPostDialog}
+              onClick={() => {
+                dispatchNewPostAction(setValues);
+                closeNewPostDialog();
+              }}
               variant="contained"
               color="primary"
             >
               Add
             </Button>
             <Button
-              onClick={closeNewPostDialog}
+              onClick={() => closeNewPostDialog()}
               color="primary"
               variant="contained"
             >
@@ -161,7 +187,7 @@ export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
           <DialogActions>
             <Button
               onClick={() => {
-                // saveBondsProduct(setValues);
+                // saveNewPostAction(setValues);
                 closeNewPostDialog;
               }}
               color="primary"
@@ -184,7 +210,7 @@ export function AllPostsDialog({ postDialog, closeNewPostDialog }) {
 }
 
 AllPostsDialog.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
+  dispatchNewPostAction: PropTypes.func,
   closeNewPostDialog: PropTypes.func,
   postDialog: PropTypes.object,
 };

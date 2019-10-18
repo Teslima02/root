@@ -25,7 +25,7 @@ import saga from './saga';
 import messages from './messages';
 import { AllPostsList } from './components/AllPostsList';
 import { AllPostsDialog } from './components/AllPostsDialog';
-import { closeNewPostDialog, allPosts } from './actions';
+import { closeNewPostDialog, allPosts, saveNewPost } from './actions';
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -41,6 +41,7 @@ export function AllPosts({
   getAllPosts,
   loading,
   error,
+  dispatchNewPostAction,
 }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
@@ -70,6 +71,7 @@ export function AllPosts({
       <AllPostsDialog
         postDialog={postDialog}
         closeNewPostDialog={closeNewPostDialog}
+        dispatchNewPostAction={dispatchNewPostAction}
       />
     </React.Fragment>
   );
@@ -82,6 +84,7 @@ AllPosts.propTypes = {
   dispatchAllPostsAction: PropTypes.func,
   loading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  dispatchNewPostAction: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -93,6 +96,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    dispatchNewPostAction: evt => dispatch(saveNewPost(evt)),
     dispatchAllPostsAction: () => dispatch(allPosts()),
     closeNewPostDialog: () => dispatch(closeNewPostDialog()),
     dispatch,
