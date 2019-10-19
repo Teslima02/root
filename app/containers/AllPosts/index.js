@@ -65,14 +65,14 @@ export function AllPosts({
             error={error}
             getAllPosts={getAllPosts}
           />
+
+          <AllPostsDialog
+            postDialog={postDialog}
+            closeNewPostDialog={closeNewPostDialog}
+            dispatchNewPostAction={dispatchNewPostAction}
+          />
         </Grid>
       </Grid>
-
-      <AllPostsDialog
-        postDialog={postDialog}
-        closeNewPostDialog={closeNewPostDialog}
-        dispatchNewPostAction={dispatchNewPostAction}
-      />
     </React.Fragment>
   );
 }
