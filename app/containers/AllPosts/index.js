@@ -11,9 +11,9 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
 import { Grid, makeStyles } from '@material-ui/core';
+import { useInjectSaga } from '../../utils/injectSaga';
+import { useInjectReducer } from '../../utils/injectReducer';
 import {
   makeSelectPostDialog,
   makeSelectGetAllPosts,
@@ -22,7 +22,6 @@ import {
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
 import { AllPostsList } from './components/AllPostsList';
 import { AllPostsDialog } from './components/AllPostsDialog';
 import { closeNewPostDialog, allPosts, saveNewPost } from './actions';

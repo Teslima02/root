@@ -59,8 +59,8 @@ export function AllPostsDialog({
   dispatchNewPostAction,
 }) {
   const classes = useStyles();
-  useInjectReducer({ key: 'allPostsDialog', reducer });
-  useInjectSaga({ key: 'allPostsDialog', saga });
+  useInjectReducer({ key: 'allPosts', reducer });
+  useInjectSaga({ key: 'allPosts', saga });
 
   const [values, setValues] = React.useState({
     title: '',
@@ -167,7 +167,7 @@ export function AllPostsDialog({
           <DialogActions>
             <Button
               onClick={() => {
-                dispatchNewPostAction(setValues);
+                dispatchNewPostAction(values);
                 closeNewPostDialog();
               }}
               variant="contained"

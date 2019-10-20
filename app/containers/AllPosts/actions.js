@@ -13,6 +13,8 @@ import {
   GET_ALL_POSTS,
   GET_ALL_POSTS_SUCCESS,
   GET_ALL_POSTS_ERROR,
+  SAVE_NEW_POST_SUCCESS,
+  SAVE_NEW_POST_ERROR,
 } from './constants';
 
 export function openNewPostDialog() {
@@ -60,14 +62,22 @@ export function allPostsError(data) {
 }
 
 export function saveNewPost(data) {
-  console.log(data, 'new post');
-  return dispatch => {
+  return {
+    type: SAVE_NEW_POST,
+    payload: data,
+  };
+}
 
-    Promise.all([
-      dispatch({
-        type: SAVE_NEW_POST,
-        payload: data,
-      }),
-    ]).then(() => dispatch(allPosts()));
+export function saveNewPostSuccess(data) {
+  return {
+    type: SAVE_NEW_POST_SUCCESS,
+    payload: data,
+  };
+}
+
+export function saveNewPostError(data) {
+  return {
+    type: SAVE_NEW_POST_ERROR,
+    payload: data,
   };
 }

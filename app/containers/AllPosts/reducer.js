@@ -12,10 +12,14 @@ import {
   GET_ALL_POSTS,
   GET_ALL_POSTS_SUCCESS,
   GET_ALL_POSTS_ERROR,
+  SAVE_NEW_POST,
+  SAVE_NEW_POST_SUCCESS,
+  SAVE_NEW_POST_ERROR,
 } from './constants';
 
 export const initialState = {
   getAllPosts: [],
+  newPost: {},
   loading: false,
   error: false,
   postDialog: {
@@ -36,7 +40,7 @@ const allPostsReducer = (state = initialState, action) =>
           ...state,
           loading: true,
           error: false,
-          getAllPosts: [],
+          // getAllPosts: [],
         };
       }
       case GET_ALL_POSTS_SUCCESS: {
@@ -77,6 +81,29 @@ const allPostsReducer = (state = initialState, action) =>
             },
             data: null,
           },
+        };
+      }
+      case SAVE_NEW_POST: {
+        return {
+          ...state,
+          loading: true,
+          error: false,
+          newPost: action.payload,
+        };
+      }
+      case SAVE_NEW_POST_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          error: false,
+          // getAllPosts: action.payload,
+        };
+      }
+      case SAVE_NEW_POST_ERROR: {
+        return {
+          ...state,
+          loading: false,
+          error: true,
         };
       }
     }

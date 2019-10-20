@@ -56,6 +56,11 @@ func oneArticle(w http.ResponseWriter, r *http.Request) {
 }
 
 func createNewArticle(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method == "POST" {
+		w.Header().Set("Access-Control-Allow-Headers", "Authorization") // You can add more headers here if needed
+	}
 	// get the body of our POST request
 	// unmarshal this into a new Article struct
 	// append this to our Articles array.
