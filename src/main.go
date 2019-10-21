@@ -57,6 +57,9 @@ func oneArticle(w http.ResponseWriter, r *http.Request) {
 
 func createNewArticle(w http.ResponseWriter, r *http.Request) {
 
+	// fmt.Print(w)
+	fmt.Print(r.Body)
+
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if r.Method == "POST" {
 		w.Header().Set("Access-Control-Allow-Headers", "Authorization") // You can add more headers here if needed

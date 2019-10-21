@@ -50,6 +50,8 @@ export function AllPosts({
     dispatchAllPostsAction();
   }, []);
 
+  console.log(getAllPosts, 'getAllPosts')
+
   return (
     <React.Fragment>
       <Helmet>

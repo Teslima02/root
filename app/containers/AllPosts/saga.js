@@ -26,13 +26,12 @@ export function* getAllPosts() {
 export function* saveNewPost() {
   const requestURL = 'http://127.0.0.1:8081/article';
 
-  const newPostData = yield select(makeSelectNewPost());
+  const newPostData = yield select(makeSelectNewPost())
 
   try {
     const allPostsRequ = yield call(request, requestURL, {
       method: 'POST',
-      body: newPostData,
-      // body: JSON.stringify(newPostData),
+      body: JSON.stringify(newPostData),
     });
 
     console.log(allPostsRequ, 'allPostsRequ');

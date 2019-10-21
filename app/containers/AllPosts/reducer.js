@@ -49,7 +49,7 @@ const allPostsReducer = (state = initialState, action) =>
           loading: false,
           error: false,
           getAllPosts: action.payload,
-          // draft: [(draft.getAllPosts = action.payload)],
+          draft: { 'draft.getAllPosts': action.payload },
         };
       }
       case GET_ALL_POSTS_ERROR: {
@@ -96,7 +96,7 @@ const allPostsReducer = (state = initialState, action) =>
           ...state,
           loading: false,
           error: false,
-          // getAllPosts: action.payload,
+          getAllPosts: state.getAllPosts.concat(action.payload),
         };
       }
       case SAVE_NEW_POST_ERROR: {
