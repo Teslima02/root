@@ -57,8 +57,7 @@ func oneArticle(w http.ResponseWriter, r *http.Request) {
 
 func createNewArticle(w http.ResponseWriter, r *http.Request) {
 
-	// fmt.Print(w)
-	fmt.Print(r.Body)
+	// fmt.Print(r.Body)
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if r.Method == "POST" {
@@ -80,9 +79,18 @@ func createNewArticle(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateArticle(w http.ResponseWriter, r *http.Request) {
+
+	fmt.Print(r)
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method == "PUT" {
+		w.Header().Set("Access-Control-Allow-Headers", "Authorization") // You can add more headers here if needed
+	}
+
 	vars := mux.Vars(r)
 	key := vars["id"]
 
+	// json.NewEncoder(w).Encode(article)
 	fmt.Fprint(w, "key: "+key)
 }
 

@@ -15,11 +15,15 @@ import {
   SAVE_NEW_POST,
   SAVE_NEW_POST_SUCCESS,
   SAVE_NEW_POST_ERROR,
+  UPDATE_POST,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_ERROR,
 } from './constants';
 
 export const initialState = {
   getAllPosts: [],
   newPost: {},
+  updatePost: {},
   loading: false,
   error: false,
   postDialog: {
@@ -100,6 +104,53 @@ const allPostsReducer = (state = initialState, action) =>
         };
       }
       case SAVE_NEW_POST_ERROR: {
+        return {
+          ...state,
+          loading: false,
+          error: true,
+        };
+      }
+      case OPEN_EDIT_POST_DIALOG: {
+        return {
+          ...state,
+          postDialog: {
+            type: 'edit',
+            props: {
+              open: true,
+            },
+            data: action.payload,
+          },
+        };
+      }
+      case CLOSE_EDIT_POST_DIALOG: {
+        return {
+          ...state,
+          postDialog: {
+            type: 'edit',
+            props: {
+              open: false,
+            },
+            data: null,
+          },
+        };
+      }
+      case UPDATE_POST: {
+        return {
+          ...state,
+          loading: true,
+          error: false,
+          updatePost: action.payload,
+        };
+      }
+      case UPDATE_POST_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          error: false,
+          getAllPosts: state.getAllPosts.concat(action.payload),
+        };
+      }
+      case UPDATE_POST_ERROR: {
         return {
           ...state,
           loading: false,

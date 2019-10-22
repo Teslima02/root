@@ -14,17 +14,11 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import {
-  Grid,
-  Paper,
   TextField,
   makeStyles,
-  FormControlLabel,
-  Icon,
   Button,
   Dialog,
-  DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   AppBar,
   Toolbar,
@@ -33,7 +27,7 @@ import {
 import makeSelectAllPosts from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
-import { closeNewPostDialog, saveNewPost } from '../actions';
+import { closeNewPostDialog } from '../actions';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -57,6 +51,7 @@ export function AllPostsDialog({
   postDialog,
   closeNewPostDialog,
   dispatchNewPostAction,
+  dispatchUpdatePostAction,
 }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
@@ -72,9 +67,11 @@ export function AllPostsDialog({
     setValues({ ...values, [name]: event.target.value });
   };
 
-  // useEffect(() => {
-  //   console.log(postDialog, 'effect postDialog');
-  // });
+  useEffect(() => {
+    setValues({
+      ...postDialog.data,
+    });
+  }, [postDialog.data]);
 
   // const closeComposeDialog = () => {
   //   postDialog.type === 'edit' ? closeNewPostDialog : closeNewPostDialog;
@@ -187,8 +184,8 @@ export function AllPostsDialog({
           <DialogActions>
             <Button
               onClick={() => {
-                // saveNewPostAction(setValues);
-                closeNewPostDialog;
+                dispatchUpdatePostAction(values);
+                closeNewPostDialog();
               }}
               color="primary"
               variant="contained"
@@ -196,7 +193,7 @@ export function AllPostsDialog({
               Save
             </Button>
             <Button
-              onClick={closeNewPostDialog}
+              onClick={() => closeNewPostDialog()}
               color="primary"
               variant="contained"
             >

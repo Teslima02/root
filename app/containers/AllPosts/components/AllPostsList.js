@@ -19,7 +19,12 @@ import AddButton from './AddButton';
 import { makeSelectPostDialog, makeSelectGetAllPosts } from '../selectors';
 import reducer from '../reducer';
 import saga from '../saga';
-import { openNewPostDialog, closeNewPostDialog, allPosts } from '../actions';
+import {
+  openNewPostDialog,
+  closeNewPostDialog,
+  allPosts,
+  openEditPostDialog,
+} from '../actions';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 
 const useStyles = makeStyles(theme => ({
@@ -40,7 +45,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function AllPostsList({ getAllPosts, loading, error }) {
+export function AllPostsList({
+  getAllPosts,
+  loading,
+  error,
+  openEditPostDialog,
+}) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
   useInjectSaga({ key: 'allPosts', saga });
@@ -81,11 +91,28 @@ export function AllPostsList({ getAllPosts, loading, error }) {
       },
     },
     {
-      name: 'content',
-      label: 'Contents',
+      name: 'id',
+      label: 'Edit',
       options: {
         filter: true,
         sort: false,
+        customBodyRender: value => {
+          const Post = getAllPosts.find(post => value === post.id);
+
+          if (value === '') {
+            return '';
+          }
+          return (
+            <FormControlLabel
+              label="Edit"
+              control={<Icon>create</Icon>}
+              onClick={evt => {
+                evt.stopPropagation();
+                openEditPostDialog(Post);
+              }}
+            />
+          );
+        },
       },
     },
   ];
@@ -117,6 +144,8 @@ AllPostsList.propTypes = {
   getAllPosts: PropTypes.array.isRequired,
   loading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  openEditPostDialog: PropTypes.object,
+  // openEditPostDialog: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -126,9 +155,6 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    openNewPostDialog: () => dispatch(openNewPostDialog()),
-    closeNewPostDialog: () => dispatch(closeNewPostDialog()),
-    allPostsD: () => dispatch(allPosts()),
     dispatch,
   };
 }

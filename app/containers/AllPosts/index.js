@@ -24,7 +24,14 @@ import reducer from './reducer';
 import saga from './saga';
 import { AllPostsList } from './components/AllPostsList';
 import { AllPostsDialog } from './components/AllPostsDialog';
-import { closeNewPostDialog, allPosts, saveNewPost } from './actions';
+import {
+  closeNewPostDialog,
+  allPosts,
+  saveNewPost,
+  openEditPostDialog,
+  closeEditPostDialog,
+  updatePost,
+} from './actions';
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -41,6 +48,9 @@ export function AllPosts({
   loading,
   error,
   dispatchNewPostAction,
+  openEditPostDialog,
+  closeEditPostDialog,
+  dispatchUpdatePostAction,
 }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
@@ -49,8 +59,6 @@ export function AllPosts({
   useEffect(() => {
     dispatchAllPostsAction();
   }, []);
-
-  console.log(getAllPosts, 'getAllPosts')
 
   return (
     <React.Fragment>
@@ -65,12 +73,15 @@ export function AllPosts({
             loading={loading}
             error={error}
             getAllPosts={getAllPosts}
+            openEditPostDialog={openEditPostDialog}
           />
 
           <AllPostsDialog
             postDialog={postDialog}
             closeNewPostDialog={closeNewPostDialog}
             dispatchNewPostAction={dispatchNewPostAction}
+            closeEditPostDialog={closeEditPostDialog}
+            dispatchUpdatePostAction={dispatchUpdatePostAction}
           />
         </Grid>
       </Grid>
@@ -86,6 +97,9 @@ AllPosts.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   dispatchNewPostAction: PropTypes.func,
+  openEditPostDialog: PropTypes.object,
+  closeEditPostDialog: PropTypes.func.isRequired,
+  dispatchUpdatePostAction: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -97,9 +111,12 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    dispatchUpdatePostAction: evt => dispatch(updatePost(evt)),
     dispatchNewPostAction: evt => dispatch(saveNewPost(evt)),
     dispatchAllPostsAction: () => dispatch(allPosts()),
     closeNewPostDialog: () => dispatch(closeNewPostDialog()),
+    openEditPostDialog: evt => dispatch(openEditPostDialog(evt)),
+    closeEditPostDialog: () => dispatch(closeEditPostDialog()),
     dispatch,
   };
 }

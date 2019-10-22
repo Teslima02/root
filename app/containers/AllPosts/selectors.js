@@ -51,8 +51,23 @@ const makeSelectNewPost = () =>
     subState => subState.newPost,
   );
 
+const makeSelectEditPost = () =>
+  createSelector(
+    selectAllPostsDomain,
+    subState => subState.postDialog,
+  );
+
+const makeSelectUpdatePost = () =>
+  createSelector(
+    selectAllPostsDomain,
+    subState => subState.updatePost,
+  );
+
+
 export default makeSelectAllPosts;
 export {
+  makeSelectUpdatePost,
+  makeSelectEditPost,
   makeSelectNewPost,
   selectAllPostsDomain,
   makeSelectPostDialog,

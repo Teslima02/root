@@ -22,7 +22,6 @@ import makeSelectAllPosts, {
 import reducer from '../reducer';
 import saga from '../saga';
 import { openNewPostDialog, closeNewPostDialog } from '../actions';
-import { AllPostsDialog } from './AllPostsDialog';
 
 const defaultToolbarStyles = {
   iconButton: {},

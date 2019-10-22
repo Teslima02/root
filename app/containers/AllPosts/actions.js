@@ -15,6 +15,9 @@ import {
   GET_ALL_POSTS_ERROR,
   SAVE_NEW_POST_SUCCESS,
   SAVE_NEW_POST_ERROR,
+  UPDATE_POST,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_ERROR,
 } from './constants';
 
 export function openNewPostDialog() {
@@ -29,9 +32,10 @@ export function closeNewPostDialog() {
   };
 }
 
-export function openEditPostDialog() {
+export function openEditPostDialog(data) {
   return {
     type: OPEN_EDIT_POST_DIALOG,
+    payload: data,
   };
 }
 
@@ -78,6 +82,27 @@ export function saveNewPostSuccess(data) {
 export function saveNewPostError(data) {
   return {
     type: SAVE_NEW_POST_ERROR,
+    payload: data,
+  };
+}
+
+export function updatePost(data) {
+  return {
+    type: UPDATE_POST,
+    payload: data,
+  };
+}
+
+export function updatePostSuccess(data) {
+  return {
+    type: UPDATE_POST_SUCCESS,
+    payload: data,
+  };
+}
+
+export function updatePostError(data) {
+  return {
+    type: UPDATE_POST_ERROR,
     payload: data,
   };
 }
