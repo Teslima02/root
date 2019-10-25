@@ -50,6 +50,7 @@ export function AllPostsList({
   loading,
   error,
   openEditPostDialog,
+  dispatchDeletePostAction,
 }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
@@ -109,6 +110,31 @@ export function AllPostsList({
               onClick={evt => {
                 evt.stopPropagation();
                 openEditPostDialog(Post);
+              }}
+            />
+          );
+        },
+      },
+    },
+    {
+      name: 'id',
+      label: 'Delete',
+      options: {
+        filter: true,
+        sort: false,
+        customBodyRender: value => {
+          const Post = getAllPosts.find(post => value === post.id);
+
+          if (value === '') {
+            return '';
+          }
+          return (
+            <FormControlLabel
+              label="Delete"
+              control={<Icon>delete</Icon>}
+              onClick={evt => {
+                evt.stopPropagation();
+                dispatchDeletePostAction(Post);
               }}
             />
           );

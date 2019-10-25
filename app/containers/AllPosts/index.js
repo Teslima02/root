@@ -31,6 +31,7 @@ import {
   openEditPostDialog,
   closeEditPostDialog,
   updatePost,
+  deletePost,
 } from './actions';
 
 const useStyles = makeStyles(theme => ({
@@ -51,6 +52,7 @@ export function AllPosts({
   openEditPostDialog,
   closeEditPostDialog,
   dispatchUpdatePostAction,
+  dispatchDeletePostAction,
 }) {
   const classes = useStyles();
   useInjectReducer({ key: 'allPosts', reducer });
@@ -74,6 +76,7 @@ export function AllPosts({
             error={error}
             getAllPosts={getAllPosts}
             openEditPostDialog={openEditPostDialog}
+            dispatchDeletePostAction={dispatchDeletePostAction}
           />
 
           <AllPostsDialog
@@ -100,6 +103,7 @@ AllPosts.propTypes = {
   openEditPostDialog: PropTypes.object,
   closeEditPostDialog: PropTypes.func.isRequired,
   dispatchUpdatePostAction: PropTypes.func,
+  dispatchDeletePostAction: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -111,6 +115,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    dispatchDeletePostAction: evt => dispatch(deletePost(evt)),
     dispatchUpdatePostAction: evt => dispatch(updatePost(evt)),
     dispatchNewPostAction: evt => dispatch(saveNewPost(evt)),
     dispatchAllPostsAction: () => dispatch(allPosts()),

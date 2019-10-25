@@ -18,6 +18,9 @@ import {
   UPDATE_POST,
   UPDATE_POST_SUCCESS,
   UPDATE_POST_ERROR,
+  DELETE_POST,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_ERROR,
 } from './constants';
 
 export function openNewPostDialog() {
@@ -103,6 +106,28 @@ export function updatePostSuccess(data) {
 export function updatePostError(data) {
   return {
     type: UPDATE_POST_ERROR,
+    payload: data,
+  };
+}
+
+export function deletePost(data) {
+  console.log(data, 'data')
+  return {
+    type: DELETE_POST,
+    payload: data,
+  };
+}
+
+export function deletePostSuccess(data) {
+  return {
+    type: DELETE_POST_SUCCESS,
+    payload: data,
+  };
+}
+
+export function deletePostError(data) {
+  return {
+    type: DELETE_POST_ERROR,
     payload: data,
   };
 }

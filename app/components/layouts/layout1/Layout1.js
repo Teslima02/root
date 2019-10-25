@@ -144,6 +144,12 @@ export default function Layout1(props) {
     setOpen(false);
   }
 
+
+  const navigation = [
+    {name: 'dashboard', link: '/dashboard'},
+    {name: 'post', link: '/posts'},
+  ]
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu

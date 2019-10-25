@@ -20,3 +20,7 @@ export const SAVE_NEW_POST_ERROR = 'app/AllPosts/SAVE_NEW_POST_ERROR';
 export const UPDATE_POST = 'app/AllPosts/UPDATE_POST';
 export const UPDATE_POST_SUCCESS = 'app/AllPosts/UPDATE_POST_SUCCESS';
 export const UPDATE_POST_ERROR = 'app/AllPosts/UPDATE_POST_ERROR';
+
+export const DELETE_POST = 'app/AllPosts/DELETE_POST';
+export const DELETE_POST_SUCCESS = 'app/AllPosts/DELETE_POST_SUCCESS';
+export const DELETE_POST_ERROR = 'app/AllPosts/DELETE_POST_ERROR';

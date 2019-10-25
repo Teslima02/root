@@ -6,7 +6,12 @@ import {
   takeLatest,
   actionChannel,
 } from 'redux-saga/effects';
-import { GET_ALL_POSTS, SAVE_NEW_POST, UPDATE_POST } from './constants';
+import {
+  GET_ALL_POSTS,
+  SAVE_NEW_POST,
+  UPDATE_POST,
+  DELETE_POST,
+} from './constants';
 import request from '../../utils/request';
 import {
   allPosts,
@@ -16,8 +21,9 @@ import {
   saveNewPostError,
   updatePostSuccess,
   updatePostError,
+  deletePostSuccess,
 } from './actions';
-import { makeSelectNewPost, makeSelectUpdatePost } from './selectors';
+import { makeSelectNewPost, makeSelectPostData } from './selectors';
 
 // Individual exports for testing
 export function* getAllPosts() {
@@ -50,23 +56,52 @@ export function* saveNewPost() {
 }
 
 export function* updatePost() {
-  const updatePostData = yield select(makeSelectUpdatePost());
+  const updatePostData = yield select(makeSelectPostData());
 
   console.log(updatePostData, 'updatePostData');
+
+  const proxyurl = 'https://cors-anywhere.herokuapp.com/';
+  // const url = "https://example.com";
 
   const requestURL = `http://127.0.0.1:8081/article/update/${
     updatePostData.id
   }`;
 
-  console.log(requestURL, 'requestURL')
+  console.log(requestURL, 'requestURL');
 
   try {
-    const updatePostsRequ = yield call(request, requestURL, {
+    const updatePostsRequ = yield call(request, proxyurl + requestURL, {
       method: 'PUT',
       body: JSON.stringify(updatePostData),
+      // headers: {
+      // Accept: 'application/json',
+      // 'Content-Type': 'application/json',
+      // Authorization: `Bearer ${token}`,
+      // },
     });
 
     yield put(updatePostSuccess(updatePostsRequ));
+  } catch (err) {
+    yield put(updatePostError(err));
+  }
+}
+
+export function* deletePost() {
+  const data = yield select(makeSelectPostData());
+
+  console.log(data, 'data');
+
+  const requestURL = `http://127.0.0.1:8081/article/${data.id}`;
+
+  console.log(requestURL, 'requestURL');
+
+  try {
+    const deletePostsRequ = yield call(request, requestURL, {
+      method: 'DELETE',
+      body: JSON.stringify(data.id),
+    });
+
+    yield put(deletePostSuccess(deletePostsRequ));
   } catch (err) {
     yield put(updatePostError(err));
   }
@@ -76,4 +111,5 @@ export default function* posts() {
   yield takeLatest(GET_ALL_POSTS, getAllPosts);
   yield takeLatest(SAVE_NEW_POST, saveNewPost);
   yield takeLatest(UPDATE_POST, updatePost);
+  yield takeLatest(DELETE_POST, deletePost);
 }

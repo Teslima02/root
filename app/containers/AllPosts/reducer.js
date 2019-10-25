@@ -18,12 +18,16 @@ import {
   UPDATE_POST,
   UPDATE_POST_SUCCESS,
   UPDATE_POST_ERROR,
+  DELETE_POST,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_ERROR,
 } from './constants';
 
 export const initialState = {
   getAllPosts: [],
   newPost: {},
-  updatePost: {},
+  // updatePost: {},
+  postData: {},
   loading: false,
   error: false,
   postDialog: {
@@ -139,7 +143,7 @@ const allPostsReducer = (state = initialState, action) =>
           ...state,
           loading: true,
           error: false,
-          updatePost: action.payload,
+          postData: action.payload,
         };
       }
       case UPDATE_POST_SUCCESS: {
@@ -151,6 +155,29 @@ const allPostsReducer = (state = initialState, action) =>
         };
       }
       case UPDATE_POST_ERROR: {
+        return {
+          ...state,
+          loading: false,
+          error: true,
+        };
+      }
+      case DELETE_POST: {
+        return {
+          ...state,
+          loading: true,
+          error: false,
+          postData: action.payload,
+        };
+      }
+      case DELETE_POST_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          error: false,
+          getAllPosts: state.getAllPosts.concat(action.payload),
+        };
+      }
+      case DELETE_POST_ERROR: {
         return {
           ...state,
           loading: false,
