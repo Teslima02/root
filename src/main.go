@@ -83,8 +83,13 @@ func updateArticle(w http.ResponseWriter, r *http.Request) {
 	fmt.Print(r)
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	// w.Header().Add("Access-Control-Allow-Origin", "*")
 	if r.Method == "PUT" {
-		w.Header().Set("Access-Control-Allow-Headers", "Authorization") // You can add more headers here if needed
+		// w.Header().Add("Access-Control-Allow-Origin", "*")
+		// w.Header().Add("Access-Control-Allow-Methods", "PUT")
+		// w.Header().Add("Access-Control-Allow-Methods", "OPTION")
+		// w.Header().Add("Content-Type", "application/json")
+		w.Header().Add("Access-Control-Allow-Headers", "Authorization") // You can add more headers here if needed
 	}
 
 	vars := mux.Vars(r)
@@ -95,6 +100,16 @@ func updateArticle(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteArticle(w http.ResponseWriter, r *http.Request) {
+
+	// w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	if r.Method == "DELETE" {
+		w.Header().Add("Access-Control-Allow-Origin", "*")
+		w.Header().Add("Access-Control-Allow-Methods", "DELETE")
+		w.Header().Add("Access-Control-Allow-Methods", "OPTION")
+		w.Header().Add("Content-Type", "application/json")
+		// w.Header().Set("Access-Control-Allow-Headers", "Authorization") // You can add more headers here if needed
+	}
 	// once again, we will need to parse the path parameters
 	vars := mux.Vars(r)
 
