@@ -19,6 +19,7 @@ import {
   AppBar,
   IconButton,
 } from '@material-ui/core';
+import { withRouter } from 'react-router';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -108,7 +109,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Layout1(props) {
+const Layout1 = props => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -144,11 +145,14 @@ export default function Layout1(props) {
     setOpen(false);
   }
 
+  const handleClick = link => {
+    props.history.push(link);
+  };
 
   const navigation = [
-    {name: 'dashboard', link: '/dashboard'},
-    {name: 'post', link: '/posts'},
-  ]
+    { id: 1, name: 'dashboard', link: '/' },
+    { id: 2, name: 'post', link: '/posts' },
+  ];
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -294,12 +298,15 @@ export default function Layout1(props) {
         </div>
         <Divider />
         <List>
-          {navigation.map((text, index) => (
-            <ListItem button key={text}>
+          {navigation.map(text => (
+            <ListItem button key={text.id}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <InboxIcon onClick={() => handleClick(text.link)} />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText
+                primary={text.name}
+                onClick={() => handleClick(text.link)}
+              />
             </ListItem>
           ))}
         </List>
@@ -331,4 +338,7 @@ export default function Layout1(props) {
 
 Layout1.propTypes = {
   children: PropTypes.array.isRequired,
+  history: PropTypes.object,
 };
+
+export default withRouter(Layout1);
