@@ -170,8 +170,8 @@ AllPostsList.propTypes = {
   getAllPosts: PropTypes.array.isRequired,
   loading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  openEditPostDialog: PropTypes.object,
-  // openEditPostDialog: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  // openEditPostDialog: PropTypes.object,
+  openEditPostDialog: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 };
 
 const mapStateToProps = createStructuredSelector({
