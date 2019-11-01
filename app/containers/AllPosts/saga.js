@@ -24,10 +24,11 @@ import {
   deletePostSuccess,
 } from './actions';
 import { makeSelectNewPost, makeSelectPostData } from './selectors';
+import { BaseUrl } from '../../components/BaseUrl';
 
 // Individual exports for testing
 export function* getAllPosts() {
-  const requestURL = 'http://127.0.0.1:8081/articles';
+  const requestURL = `${BaseUrl}/posts`;
 
   try {
     const allPostsRequ = yield call(request, requestURL);
