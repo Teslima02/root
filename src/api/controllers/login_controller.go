@@ -5,10 +5,10 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/victorsteven/fullstack/api/auth"
-	"github.com/victorsteven/fullstack/api/models"
-	"github.com/victorsteven/fullstack/api/responses"
-	"github.com/victorsteven/fullstack/api/utils/formaterror"
+	"github.com/teslima02/root/api/auth"
+	"github.com/teslima02/root/api/models"
+	"github.com/teslima02/root/api/responses"
+	"github.com/teslima02/root/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
 )
 

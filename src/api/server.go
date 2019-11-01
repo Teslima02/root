@@ -6,8 +6,8 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/victorsteven/fullstack/api/controllers"
-	"github.com/victorsteven/fullstack/api/seed"
+	"github.com/teslima02/root/api/controllers"
+	"github.com/teslima02/root/api/seed"
 )
 
 var server = controllers.Server{}
@@ -26,6 +26,6 @@ func Run() {
 
 	seed.Load(server.DB)
 
-	server.Run(":8080")
+	server.Run(":9080")
 
 }
