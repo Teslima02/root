@@ -16,6 +16,7 @@ import HomePage from '../HomePage/Loadable';
 import FeaturePage from '../FeaturePage/Loadable';
 import NotFoundPage from '../NotFoundPage/Loadable';
 import AllPosts from '../AllPosts/Loadable';
+import LoginPage from '../LoginPage/Loadable';
 
 import Layout1 from '../../components/layouts/layout1/Layout1';
 import Layout2 from '../../components/layouts/layout2/Layout2';;
@@ -37,7 +38,9 @@ export default function App() {
           </Helmet>
 
           <Switch>
-            <Route exact path="/" component={HomePage} />
+            <Route exact path="/" component={LoginPage} />
+            <Route exact path="/login" component={LoginPage} />
+            <Route exact path="/dashboard" component={HomePage} />
             <Route path="/posts" component={AllPosts} />
             <Route path="/features" component={FeaturePage} />
             <Route path="" component={NotFoundPage} />
