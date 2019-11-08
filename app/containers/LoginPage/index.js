@@ -45,8 +45,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 function mapDispatchToProps(dispatch) {
-  return {
-  };
+  // console.log(dispatch, 'dispatch');
+  return {};
 }
 
 const withConnect = connect(

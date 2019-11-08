@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
+import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +13,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { compose } from '@material-ui/system';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import * as Actions from '../actions';
 
 function Copyright() {
   return (
@@ -51,13 +56,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const LoginForm = () => {
+const LoginForm = ({ loginAction }) => {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
     email: '',
     password: '',
   });
+
+  console.log(loginAction, 'loginAction');
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -118,10 +125,9 @@ const LoginForm = () => {
           variant="contained"
           color="primary"
           className={classes.submit}
-          // onClick={() => {
-
-          // }}
-          // disabled
+          onClick={() => {
+            loginAction(values);
+          }}
           disabled={!canBeSubmitted}
         >
           Sign In
@@ -147,4 +153,28 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+LoginForm.propTypes = {
+  loginAction: PropTypes.object,
+};
+
+// const mapStateToProps = createStructuredSelector({
+  // loginPage: makeSelectLoginPage(),
+// });
+
+function mapDispatchToProps(dispatch) {
+  console.log(dispatch, 'dispatch');
+  return {
+    loginAction: evt => dispatch(Actions.loginAction(evt)),
+  };
+}
+
+const withConnect = connect(
+  // mapStateToProps,
+  null,
+  mapDispatchToProps,
+);
+
+export default compose(
+  withConnect,
+  memo,
+)(LoginForm);
