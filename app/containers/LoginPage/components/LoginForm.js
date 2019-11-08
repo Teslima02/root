@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -54,6 +54,23 @@ const useStyles = makeStyles(theme => ({
 const LoginForm = () => {
   const classes = useStyles();
 
+  const [values, setValues] = React.useState({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const canBeSubmitted = () => {
+    console.log('canBeSubmitted');
+    const { email, password } = values;
+    console.log(email, password, 'email, password');
+    return !email.length && !password.length;
+    // return email !== null && password !== null;
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -64,61 +81,70 @@ const LoginForm = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+        {/* <form className={classes.form} noValidate> */}
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          value={values.email}
+          autoComplete="email"
+          autoFocus
+          onChange={handleChange('email')}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          value={values.password}
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          onChange={handleChange('password')}
+        />
+        <FormControlLabel
+          control={<Checkbox value="remember" color="primary" />}
+          label="Remember me"
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          // onClick={() => {
+
+          // }}
+          // disabled
+          disabled={!canBeSubmitted}
+        >
+          Sign In
+        </Button>
+        <Grid container>
+          <Grid item xs>
+            <Link href="#" variant="body2">
+              Forgot password?
+            </Link>
           </Grid>
-        </form>
+          <Grid item>
+            <Link href="#" variant="body2">
+              {"Don't have an account? Sign Up"}
+            </Link>
+          </Grid>
+        </Grid>
+        {/* </form> */}
       </div>
       <Box mt={8}>
         <Copyright />
       </Box>
     </Container>
   );
-}
+};
 
 export default LoginForm;

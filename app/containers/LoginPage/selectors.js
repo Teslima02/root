@@ -21,5 +21,28 @@ const makeSelectLoginPage = () =>
     substate => substate,
   );
 
+const makeSelectLoading = () =>
+  createSelector(
+    selectLoginPageDomain,
+    subState => subState.loading,
+  );
+
+const makeSelectError = () =>
+  createSelector(
+    selectLoginPageDomain,
+    subState => subState.error,
+  );
+
+const makeSelectLoginDetails = () =>
+  createSelector(
+    selectLoginPageDomain,
+    subState => subState.loginDetails,
+  );
+
 export default makeSelectLoginPage;
-export { selectLoginPageDomain };
+export {
+  selectLoginPageDomain,
+  makeSelectLoading,
+  makeSelectError,
+  makeSelectLoginDetails,
+};

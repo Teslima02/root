@@ -27,8 +27,10 @@ import Layout2 from '../../components/layouts/layout2/Layout2';
 import { makeSelectUserStatus } from './selectors';
 import { getUserStatusAction } from './actions';
 
-const App = ({ userStatus }) => {
+import PrivateRoute from './PrivateRoute';
+import { AppContext } from './AppContext';
 
+const App = ({ userStatus }) => {
   // useEffect(() => {
   //   getUserStatusAction();
   // }, []);
@@ -37,7 +39,7 @@ const App = ({ userStatus }) => {
 
   return (
     <div>
-      {userStatus === 'guest' ? (
+      <AppContext.Provider value={false}>
         <React.Fragment>
           <CssBaseline />
           <main>
@@ -55,38 +57,18 @@ const App = ({ userStatus }) => {
               <Switch>
                 <Route exact path="/" component={LoginPage} />
                 <Route exact path="/login" component={LoginPage} />
+                <Layout1>
+                  <PrivateRoute path="/dashboard" component={HomePage} />
+                  {/* <Route exact path="/dashboard" component={HomePage} /> */}
+                  {/* <Route path="/posts" component={AllPosts} /> */}
+                  {/* <Route path="/features" component={FeaturePage} /> */}
+                </Layout1>
                 <Route path="" component={NotFoundPage} />
               </Switch>
             </div>
           </main>
         </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <CssBaseline />
-          <main>
-            <Layout1>
-              <Helmet
-                titleTemplate="%s - React.js Boilerplate"
-                defaultTitle="React.js Boilerplate"
-              >
-                <meta
-                  name="description"
-                  content="A React.js Boilerplate application"
-                />
-              </Helmet>
-
-              <Switch>
-                {/* <Route exact path="/" component={LoginPage} /> */}
-                {/* <Route exact path="/login" component={LoginPage} /> */}
-                <Route exact path="/dashboard" component={HomePage} />
-                <Route path="/posts" component={AllPosts} />
-                <Route path="/features" component={FeaturePage} />
-                <Route path="" component={NotFoundPage} />
-              </Switch>
-            </Layout1>
-          </main>
-        </React.Fragment>
-      )}
+      </AppContext.Provider>
     </div>
   );
 };

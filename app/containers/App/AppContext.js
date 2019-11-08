@@ -1,5 +1,10 @@
-import React from 'react';
+import { useContext, createContext } from 'react';
 
-const AppContext = React.createContext({});
+// const AppContext = React.createContext({});
+// export default AppContext;
 
-export default AppContext;
+export const AppContext = createContext();
+
+export function useAuth() {
+  return useContext(AppContext);
+}

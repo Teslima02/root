@@ -334,10 +334,11 @@ const Layout1 = props => {
       </Grid>
     </div>
   );
-}
+};
 
 Layout1.propTypes = {
-  children: PropTypes.array.isRequired,
+  // children: PropTypes.array.isRequired,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   history: PropTypes.object,
 };
 
