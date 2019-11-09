@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 // import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
@@ -17,29 +17,28 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import HomePage from '../HomePage/Loadable';
-import FeaturePage from '../FeaturePage/Loadable';
 import NotFoundPage from '../NotFoundPage/Loadable';
 import AllPosts from '../AllPosts/Loadable';
 import LoginPage from '../LoginPage/Loadable';
 
 import Layout1 from '../../components/layouts/layout1/Layout1';
 import Layout2 from '../../components/layouts/layout2/Layout2';
-import { makeSelectUserStatus } from './selectors';
-import { getUserStatusAction } from './actions';
+import { makeSelectUserToken } from './selectors';
 
 import PrivateRoute from './PrivateRoute';
-import { AppContext } from './AppContext';
+import { AppContext } from '../context/AppContext';
 
-const App = ({ userStatus }) => {
-  // useEffect(() => {
-  //   getUserStatusAction();
-  // }, []);
+const App = () => {
+  const [authTokens, setAuthTokens] = useState();
 
-  console.log(userStatus, 'userStatus');
+  const setTokens = data => {
+    localStorage.setItem('tokens', JSON.stringify(data));
+    setAuthTokens(data);
+  };
 
   return (
     <div>
-      <AppContext.Provider value={false}>
+      <AppContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
         <React.Fragment>
           <CssBaseline />
           <main>
@@ -73,9 +72,7 @@ const App = ({ userStatus }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  userStatus: makeSelectUserStatus(),
-});
+const mapStateToProps = createStructuredSelector({});
 
 function mapDispatchToProps(dispatch) {
   return {

@@ -17,26 +17,26 @@ export const initialState = {
 const loginPageReducer = (state = initialState, action) =>
   produce(state, (/* draft */) => {
     switch (action.type) {
-      case LOGIN: {
-        return {
-          loading: true,
-          error: false,
-          loginDetails: action.payload,
-        };
-      }
-      case LOGIN_SUCCESS: {
-        return {
-          loading: false,
-          error: false,
-          user: action.payload,
-        };
-      }
-      case LOGIN_ERROR: {
-        return {
-          loading: false,
-          error: true,
-        };
-      }
+      // case LOGIN: {
+      //   return {
+      //     loading: true,
+      //     error: false,
+      //     loginDetails: action.payload,
+      //   };
+      // }
+      // case LOGIN_SUCCESS: {
+      //   return {
+      //     loading: false,
+      //     error: false,
+      //     user: action.payload,
+      //   };
+      // }
+      // case LOGIN_ERROR: {
+      //   return {
+      //     loading: false,
+      //     error: true,
+      //   };
+      // }
     }
   });
 

@@ -63,7 +63,6 @@ const makeSelectPostData = () =>
     subState => subState.postData,
   );
 
-
 export default makeSelectAllPosts;
 export {
   makeSelectPostData,

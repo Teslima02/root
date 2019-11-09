@@ -65,19 +65,19 @@ HomePage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  repos: makeSelectRepos(),
-  username: makeSelectUsername(),
-  loading: makeSelectLoading(),
-  error: makeSelectError(),
+  // repos: makeSelectRepos(),
+  // username: makeSelectUsername(),
+  // loading: makeSelectLoading(),
+  // error: makeSelectError(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onChangeUsername: evt => dispatch(changeUsername(evt.target.value)),
-    onSubmitForm: evt => {
-      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadRepos());
-    },
+    // onChangeUsername: evt => dispatch(changeUsername(evt.target.value)),
+    // onSubmitForm: evt => {
+    //   if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+    //   dispatch(loadRepos());
+    // },
   };
 }
 

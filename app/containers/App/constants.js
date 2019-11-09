@@ -14,3 +14,7 @@ export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
 export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
 
 export const LOAD_USER_STATUS = 'root/App/LOAD_USER_STATUS';
+
+export const LOGIN = 'root/App/LOGIN';
+export const LOGIN_SUCCESS = 'root/App/LOGIN_SUCCESS';
+export const LOGIN_ERROR = 'root/App/LOGIN_ERROR';

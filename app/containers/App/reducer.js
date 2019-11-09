@@ -9,6 +9,9 @@
 
 import produce from 'immer';
 import {
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS,
   LOAD_REPOS_ERROR,
@@ -20,9 +23,10 @@ export const initialState = {
   loading: false,
   error: false,
   currentUser: false,
-  userStatus: 'guest',
+  loginDetails: {},
+  tokens: false,
   userData: {
-    repositories: false,
+    user: '',
   },
 };
 
@@ -30,6 +34,26 @@ export const initialState = {
 const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case LOGIN: {
+        return {
+          loading: true,
+          error: false,
+          loginDetails: action.payload,
+        };
+      }
+      case LOGIN_SUCCESS: {
+        return {
+          loading: false,
+          error: false,
+          tokens: action.payload,
+        };
+      }
+      case LOGIN_ERROR: {
+        return {
+          loading: false,
+          error: true,
+        };
+      }
       // case LOAD_USER_STATUS: {
       //   return {
       //     // ...state,
@@ -39,8 +63,8 @@ const appReducer = (state = initialState, action) =>
       //   };
       // }
       // case LOAD_USER_STATUS:
-        // draft.userStatus = 'guest';
-        // break;
+      // draft.userStatus = 'guest';
+      // break;
 
       // case LOAD_REPOS:
       //   draft.loading = true;

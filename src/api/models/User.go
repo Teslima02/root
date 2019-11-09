@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"html"
 	"log"
 	"strings"
@@ -30,6 +31,7 @@ func VerifyPassword(hashedPassword, password string) error {
 }
 
 func (u *User) BeforeSave() error {
+	fmt.Println("before")
 	hashedPassword, err := Hash(u.Password)
 	if err != nil {
 		return err
@@ -39,6 +41,8 @@ func (u *User) BeforeSave() error {
 }
 
 func (u *User) Prepare() {
+	fmt.Println(u)
+	fmt.Println("prepare")
 	u.ID = 0
 	u.Nickname = html.EscapeString(strings.TrimSpace(u.Nickname))
 	u.Email = html.EscapeString(strings.TrimSpace(u.Email))
@@ -47,6 +51,9 @@ func (u *User) Prepare() {
 }
 
 func (u *User) Validate(action string) error {
+	fmt.Println(u)
+	fmt.Println(action, "action")
+	fmt.Println("validate")
 	switch strings.ToLower(action) {
 	case "update":
 		if u.Nickname == "" {

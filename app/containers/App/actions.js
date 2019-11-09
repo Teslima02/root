@@ -15,7 +15,36 @@
  *    }
  */
 
-import { LOAD_REPOS, LOAD_REPOS_SUCCESS, LOAD_REPOS_ERROR, LOAD_USER_STATUS } from './constants';
+import {
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
+  LOAD_REPOS,
+  LOAD_REPOS_SUCCESS,
+  LOAD_REPOS_ERROR,
+  LOAD_USER_STATUS,
+} from './constants';
+
+export function loginAction(data) {
+  return {
+    type: LOGIN,
+    payload: data,
+  };
+}
+
+export function loginSuccessAction(data) {
+  return {
+    type: LOGIN_SUCCESS,
+    payload: data,
+  };
+}
+
+export function loginErrorAction(data) {
+  return {
+    type: LOGIN_ERROR,
+    payload: data,
+  };
+}
 
 /**
  * Load the repositories, this action starts the request saga

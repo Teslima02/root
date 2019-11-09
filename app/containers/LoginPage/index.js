@@ -4,11 +4,11 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
@@ -17,12 +17,23 @@ import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
 import LoginForm from './components/LoginForm';
 
-export function LoginPage({ getUserStatus, userStatus }) {
+import { useAuth } from '../context/AppContext';
+import { makeSelectUserToken } from '../App/selectors';
+
+export function LoginPage({ tokens }) {
   useInjectReducer({ key: 'loginPage', reducer });
   useInjectSaga({ key: 'loginPage', saga });
+
+  // const [isLoggedIn, setLoggedIn] = useState(false);
+
+  const { setAuthTokens } = useAuth();
+
+  if (tokens) {
+    setAuthTokens(tokens);
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <div>
@@ -30,18 +41,18 @@ export function LoginPage({ getUserStatus, userStatus }) {
         <title>LoginPage</title>
         <meta name="description" content="Description of LoginPage" />
       </Helmet>
-      {/* <FormattedMessage {...messages.header} /> */}
       <LoginForm />
     </div>
   );
 }
 
 LoginPage.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
+  tokens: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
 
 const mapStateToProps = createStructuredSelector({
   loginPage: makeSelectLoginPage(),
+  tokens: makeSelectUserToken(),
 });
 
 function mapDispatchToProps(dispatch) {

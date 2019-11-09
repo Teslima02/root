@@ -29,7 +29,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
+
 import Footer from '../../Footer';
+import { useAuth } from '../../../containers/context/AppContext';
 
 const drawerWidth = 240;
 
@@ -149,6 +151,13 @@ const Layout1 = props => {
     props.history.push(link);
   };
 
+  const { setAuthTokens } = useAuth();
+
+  function logOut() {
+    localStorage.removeItem('tokens');
+    setAuthTokens();
+  }
+
   const navigation = [
     { id: 1, name: 'dashboard', link: '/dashboard' },
     { id: 2, name: 'post', link: '/posts' },
@@ -167,6 +176,7 @@ const Layout1 = props => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={logOut}>Logout</MenuItem>
     </Menu>
   );
 

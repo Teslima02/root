@@ -13,10 +13,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { compose } from '@material-ui/system';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import * as Actions from '../actions';
+import * as Actions from '../../App/actions';
+// import { loginAction } from '../../App/actions';
+// import * as Actions from '../actions';
 
 function Copyright() {
   return (
@@ -63,8 +65,6 @@ const LoginForm = ({ loginAction }) => {
     email: '',
     password: '',
   });
-
-  console.log(loginAction, 'loginAction');
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -154,23 +154,21 @@ const LoginForm = ({ loginAction }) => {
 };
 
 LoginForm.propTypes = {
-  loginAction: PropTypes.object,
+  loginAction: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 };
 
-// const mapStateToProps = createStructuredSelector({
+const mapStateToProps = createStructuredSelector({
   // loginPage: makeSelectLoginPage(),
-// });
+});
 
 function mapDispatchToProps(dispatch) {
-  console.log(dispatch, 'dispatch');
   return {
     loginAction: evt => dispatch(Actions.loginAction(evt)),
   };
 }
 
 const withConnect = connect(
-  // mapStateToProps,
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 );
 
